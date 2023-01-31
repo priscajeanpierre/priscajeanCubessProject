@@ -1,3 +1,4 @@
+import json
 import sys
 
 import requests
@@ -30,12 +31,10 @@ def get_data() -> dict:
 
 
 def data_entries():
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {wufoo_key}')  # Press ⌘F8 to toggle the breakpoint.
+    entry_data = json.load(response.txt)
+    wufootxt.write(str(entry_data))
+    print(json.dumps(entry_data, indent=4, sort_keys=True)
+
 
 def get_form():
-
-
-
-if __name__ == '__main__':
-    print(main)
+    pass
