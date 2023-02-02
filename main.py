@@ -6,15 +6,12 @@ import requests
 from secrets import wufoo_key
 from requests.auth import HTTPBasicAuth
 
-base_url = 'https://pjean12.wufoo.com/api/v3/'
-username = 'username'
-password = 'ABC123'
+
 
 # Press ⌃R to execute it or replace it with your code.
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 
-wufootxt = open('wufoo.txt')
-wufootxtt = open('wufoo.txt')
+
 
 
 def get_data() -> dict:
@@ -30,11 +27,20 @@ def get_data() -> dict:
     # each dictionary represents a json object
 
 
-def data_entries():
-    entry_data = json.load(response.txt)
-    wufootxt.write(str(entry_data))
-    print(json.dumps(entry_data, indent=4, sort_keys=True)
+def main():
+    data = get_data()
+    data1 = data['Entries']
+    file_to_save = open("output.txt", 'w')
+    save_data(data1, save_file=file_to_save)
 
 
-def get_form():
-    pass
+def save_data(data_to_save: list, save_file=None):
+    for entry in data_to_save:
+        for key, value in entry.items():
+            print(f"{key}: {value}", file=save_file)
+        # now print the spacer
+        print("+++++++++++++++++++++++++++++++++++++++++++++\n_______________________________________________",
+              file=save_file)
+
+if __name__ == '__main__':
+    main()
