@@ -80,13 +80,18 @@ def create_initial_entries(cursor: sqlite3.Cursor):
     collab_opportunities = 'Networking Event'
     project_topic = 'Communications'
     collab_year = '2023'
-    cursor.execute()
+    cursor.execute(f'''INSERT INTO wufoo_db(entry_id,
+    first_name, last_name, email,website_link,phone_number, 
+    collab_opportunities, project_topic, collab_year)VALUES ({entry_id},
+    '{first_name}','{last_name}','{email}','{website_link}',
+    '{phone_number}','{collab_opportunities}','{project_topic}','{collab_year}')''')
 
 
 def main():
     conn, cursor = connect_database()
     print(type(conn))
     create_db(conn)
+    create_initial_entries(cursor)
     close_database(conn)
 
 

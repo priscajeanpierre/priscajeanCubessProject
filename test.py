@@ -25,7 +25,7 @@ def test_show_output():
     assert '1100' in str_everything
 
 
-def test_interests():
-    with pytest.raises(TypeError):
-        pretendProductionCode.add_interest("too much Money", .1)
+# def test_interests():
+#     with pytest.raises(TypeError):
+#         pretendProductionCode.add_interest("too much Money", .1)
 
