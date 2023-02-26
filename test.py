@@ -3,21 +3,17 @@ import unittest
 import sqlite3
 
 
-# Define the unit test
+
 class test_database(unittest.TestCase):
     def test_connection_to_db(self):
         # Open connection to database
         conn = sqlite3.connect('wufoo_db.db')
         cursor = conn.cursor()
-
-        # Execute a query to retrieve the entries from the database
         cursor.execute('SELECT * FROM entries')
         entries = cursor.fetchall()
 
-        # Close the connection to the database
         conn.close()
 
-        # Return the entries as a list
         return entries
     def test_get_database_entries(self):
 
