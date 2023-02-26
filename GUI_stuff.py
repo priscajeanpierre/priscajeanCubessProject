@@ -16,9 +16,11 @@ listbox = tk.Listbox(window)
 listbox.pack()
 
 cursor = databaseStuff.connect_database()
+
 cursor.execute("SELECT entry_id, first_name,last_name, email, website_link, phone_number"
                    "collab_opportunities, project_topic, collab_year FROM WufooData")
 entries = cursor.fetchall()
+
 
 for entry in entries:
     listbox.insert(tk.END, f"{entry[0]} - {entry[1]} ({entry[2]}  {entry[3]} {entry[4]} {entry[5]}"
