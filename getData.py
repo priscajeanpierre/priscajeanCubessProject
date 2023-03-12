@@ -4,7 +4,8 @@ from secrets import wufoo_key  # add a secrets file with wufoo_key='YoUr-WuFoo-K
 from requests.auth import HTTPBasicAuth
 
 # adjust this to your URL
-url = "https://pjean12.wufoo.com/api/v3/forms/project-proposal-submission/entries/json"
+
+url = "https://pjean12.wufoo.com/api/v3/forms/project-proposal-submission/entries.json"
 
 
 def get_wufoo_data() -> dict:

@@ -1,4 +1,4 @@
-import databaseStuff
+import DatabaseStuff
 import unittest
 import sqlite3
 
