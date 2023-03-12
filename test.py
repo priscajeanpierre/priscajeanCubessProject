@@ -17,7 +17,7 @@ class test_database(unittest.TestCase):
         return entries
     def test_get_database_entries(self):
 
-        entries = databaseStuff.create_initial_entries()
+        entries = DatabaseStuff.create_initial_entries()
         self.assertEqual(len(entries), 2)
         self.assertEqual(entries[0], (1, 'Entry 1', 10.0))
         self.assertEqual(entries[1], (2, 'Entry 2', 20.0))
@@ -27,6 +27,8 @@ class test_database(unittest.TestCase):
         cursor = conn.cursor()
         conn.commit()
         conn.close()
+
+
 
 if __name__ == '__main__':
     unittest.main()

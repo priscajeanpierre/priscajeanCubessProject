@@ -1,5 +1,6 @@
 import tkinter as tk
 import sqlite3
+from tkinter import messagebox
 
 
 def load_database():
@@ -64,6 +65,9 @@ load_button.grid(row=0, column=1)
 view_button = tk.Button(root, text="View Entry", command=display_entries)
 view_button.grid(row=1, column=1)
 
+claim_label = tk.Button(root,bg='hot pink', text="Claim an entry")
+claim_label.grid(row=2,column=1)
+
 first_name_label = tk.Label(root, text="First Name:")
 first_name_label.grid(row=0, column=2)
 
@@ -122,6 +126,11 @@ def update_data():
         conn.commit()
     except sqlite3.Error as error:
         print(f'Update Failed: {error}')
+
+update_button = tk.Button(root, text="Update", command=update_data)
+update_button.grid(row=3, column=0)
+
+
 
 
 root.mainloop()
