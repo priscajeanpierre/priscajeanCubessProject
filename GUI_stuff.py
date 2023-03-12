@@ -106,6 +106,22 @@ created_date_label.grid(row=14, column=2)
 created_by_label = tk.Label(root, text="Created By:")
 created_by_label.grid(row=15, column=2)
 
+def update_data():
+    conn = sqlite3.connect("cubesProject.sqlite")
+    cursor = conn.cursor()
+    select_entry = input("Enter entry ID number:")
+    original_entries = input("Choose entry to update: ")
+    updated_entries = input("Enter new data: ")
+
+    try:
+        cursor.execute(f'UPDATE WufooData set {original_entries} = "{updated_entries}" WHERE entryID = {select_entry}')
+        print("*** Update Successful ***")
+        data = cursor.execute(f'select * from WufooData WHERE entryID = {select_entry}')
+        for entries in data:
+            print(entries)
+        conn.commit()
+    except sqlite3.Error as error:
+        print(f'Update Failed: {error}')
 
 
 root.mainloop()
