@@ -1,62 +1,113 @@
 import tkinter as tk
 import sqlite3
 
-import databaseStuff
 
-# Create a new Tkinter window
+def load_database():
+    # Connect to database
+    conn = sqlite3.connect("cubesProject.sqlite")
+    cursor = conn.cursor()
 
-window = tk.Tk()
-    # Set the window title
-window.title("Wufoo Data")
+    # Query database for entries
+    cursor.execute("SELECT entryid, first_name , last_name,email, website, phone_number, guest_speaker, "
+                   "site_visit, networking_event, project_topic, summer_23, fall_23, spring_23, subject_area,"
+                   " funding, created_date,created_by FROM WufooData")
+    WufooData = cursor.fetchall()
 
-    # Set the window size
-window.geometry("400x300")
+    # Close database connection
+    conn.close()
 
-listbox = tk.Listbox(window)
-listbox.pack()
-
-cursor = databaseStuff.connect_database()
-
-cursor.execute("SELECT entry_id, first_name,last_name, email, website_link, phone_number"
-                   "collab_opportunities, project_topic, collab_year FROM WufooData")
-entries = cursor.fetchall()
-
-
-for entry in entries:
-    listbox.insert(tk.END, f"{entry[0]} - {entry[1]} ({entry[2]}  {entry[3]} {entry[4]} {entry[5]}"
-                               f"{entry[6]} {entry[7]} {entry[8]} ) ")
+    # Update listbox with entries
+    for entry in WufooData:
+        listbox.insert(tk.END, f"{entry[0]} - {entry[1]}")
 
 
+def display_entries():
+    # Get selected item from listbox
+    index = listbox.curselection()[0]
+    selected_item = listbox.get(index)
+
+    # Get entry data from database
+    conn = sqlite3.connect("cubesProject.sqlite")
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM WufooData WHERE entryid={selected_item.split()[0]}")
+    entry = cursor.fetchone()
+    conn.close()
+
+    # Display entry data in label widgets
+    first_name_label.config(bg='hot pink', text=f"First Name: {entry[1]}")
+    last_name_label.config(bg='hot pink', text=f"Last Name: {entry[2]}")
+    email_label.config(bg='hot pink', text=f"Email: {entry[3]}")
+    website_label.config(bg='hot pink', text=f"Website: {entry[4]}")
+    phone_number_label.config(bg='hot pink', text=f"Phone Number: {entry[5]}")
+    guest_speaker_label.config(bg='hot pink', text=f"Guest Speaker: {entry[6]}")
+    site_visit_label.config(bg='hot pink', text=f"Site Visit: {entry[7]}")
+    networking_event_label.config(bg='hot pink', text=f"Networking Event: {entry[8]}")
+    project_topic_label.config(bg='hot pink', text=f"Project Topic: {entry[9]}")
+    summer23_label.config(bg='hot pink', text=f"Summer 2023: {entry[10]}")
+    fall23_label.config(bg='hot pink', text=f"Fall 2023: {entry[11]}")
+    spring23_label.config(bg='hot pink', text=f"Spring 2023: {entry[12]}")
+    created_date_label.config(bg='hot pink', text=f"Created Date: {entry[15]}")
+    created_by_label.config(bg='hot pink', text=f"Created By: {entry[16]}")
+
+
+# Create Tkinter window and widgets
+root = tk.Tk()
+root.configure(bg='pink')
+root.title("Wufoo Database Entries")
+
+listbox = tk.Listbox(root, width=50)
+listbox.grid(row=0, column=0, rowspan=3)
+
+load_button = tk.Button(root, text="Form Entries", command=load_database)
+load_button.grid(row=0, column=1)
+
+view_button = tk.Button(root, text="View Entry", command=display_entries)
+view_button.grid(row=1, column=1)
+
+first_name_label = tk.Label(root, text="First Name:")
+first_name_label.grid(row=0, column=2)
+
+last_name_label = tk.Label(root, text="Last Name:")
+last_name_label.grid(row=1, column=2)
+
+email_label = tk.Label(root, text="Email:")
+email_label.grid(row=2, column=2)
+
+website_label = tk.Label(root, text="Website:")
+website_label.grid(row=3, column=2)
+
+phone_number_label = tk.Label(root, text="Phone Number:")
+phone_number_label.grid(row=4, column=2)
+
+guest_speaker_label = tk.Label(root, text="Guest Speaker")
+guest_speaker_label.grid(row=5, column=2)
+
+site_visit_label = tk.Label(root, text="Site Visit")
+site_visit_label.grid(row=6, column=2)
+
+networking_event_label = tk.Label(root, text="Networking Event")
+networking_event_label.grid(row=7, column=2)
+
+project_topic_label = tk.Label(root, text="Project Topic:")
+project_topic_label.grid(row=8, column=2)
+
+summer23_label = tk.Label(root, text="Summer 2023")
+summer23_label.grid(row=9, column=2)
+
+fall23_label = tk.Label(root, text="Fall 2023")
+fall23_label.grid(row=10, column=2)
+
+spring23_label = tk.Label(root, text="Spring 2023")
+spring23_label.grid(row=11, column=2)
+
+created_date_label = tk.Label(root, text="Created Date:")
+created_date_label.grid(row=14, column=2)
+
+created_by_label = tk.Label(root, text="Created By:")
+created_by_label.grid(row=15, column=2)
 
 
 
-def show_entry_data():
-    # Get the selected entry ID from the listbox
-    selection = listbox.curselection()
-    if selection:
-        entry_id = entries[selection[0]][0]
-        # Retrieve the complete entry data from the database
-        cursor.execute("SELECT * FROM WufooData WHERE id=?", (entry_id,))
-        complete_entry = cursor().fetchone()
-        # Create a new window to display the complete entry data
-        entry_window = tk.Toplevel(window)
-        entry_window.title("Entry Data")
-        entry_window.geometry("400x300")
-        # Add labels to display the complete entry data
-        tk.Label(entry_window, text=f"ID: {complete_entry[0]}").pack()
-        tk.Label(entry_window, text=f"First Name: {complete_entry[1]}").pack()
-        tk.Label(entry_window, text=f"Last Name: {complete_entry[2]}").pack()
-        tk.Label(entry_window, text=f"Email: {complete_entry[2]}").pack()
-        tk.Label(entry_window, text=f"Website Link: {complete_entry[2]}").pack()
-        tk.Label(entry_window, text=f"Phone Number: {complete_entry[2]}").pack()
-        tk.Label(entry_window, text=f"Collab Opportunities: {complete_entry[2]}").pack()
-        tk.Label(entry_window, text=f"Project Topic: {complete_entry[2]}").pack()
-        tk.Label(entry_window, text=f"Collab Year: {complete_entry[2]}").pack()
-
-
-# Create a button to show the complete entry data
-button = tk.Button(window, text="Show Entry Data", command=show_entry_data)
-button.pack()
-window.mainloop()
+root.mainloop()
 
 
